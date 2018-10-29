@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tILParentName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/d8dp"
+            android:layout_marginStart="@dimen/d8dp"
+            android:layout_marginTop="@dimen/d100dp"
+            android:background="@drawable/eclipse_white">
+
+            <AutoCompleteTextView
+                android:id="@+id/acParentName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:completionThreshold="1"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                style="@style/Base.V7.Widget.AppCompat.EditText"
+                android:hint="@string/enter_parent_name"
+                android:imeOptions="actionNext"
+                android:minHeight="?android:attr/listPreferredItemHeightSmall" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tILFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tILParentName"
+            android:layout_marginEnd="@dimen/d8dp"
+            android:layout_marginStart="@dimen/d8dp"
+            android:layout_marginTop="@dimen/d16dp"
+            android:background="@drawable/eclipse_white">
+
+            <EditText
+                android:id="@+id/etBabyFirstName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/first_name"
+                android:imeOptions="actionNext" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tILLastName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tILFirstName"
+            android:layout_marginEnd="@dimen/d8dp"
+            android:layout_marginStart="@dimen/d8dp"
+            android:layout_marginTop="@dimen/d16dp"
+            android:layout_marginBottom="@dimen/d16dp"
+            android:background="@drawable/eclipse_white">
+
+            <EditText
+                android:id="@+id/etBabyLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/last_name"
+                android:imeOptions="actionDone" />
+        </android.support.design.widget.TextInputLayout>
+
+    </RelativeLayout>
+</ScrollView>

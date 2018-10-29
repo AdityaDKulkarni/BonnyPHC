@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tILBabyPlaceOfBirth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/d8dp"
+            android:layout_marginStart="@dimen/d8dp"
+            android:layout_marginTop="@dimen/d32dp"
+            android:background="@drawable/eclipse_white">
+
+            <EditText
+                android:id="@+id/etBabyPlaceOfBirth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/place_of_birth"
+                android:imeOptions="actionNext" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tILBabyWeight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tILBabyPlaceOfBirth"
+            android:layout_marginEnd="@dimen/d8dp"
+            android:layout_marginStart="@dimen/d8dp"
+            android:layout_marginTop="@dimen/d16dp"
+            android:background="@drawable/eclipse_white">
+
+            <EditText
+                android:id="@+id/etBabyWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/weight"
+                android:imeOptions="actionDone"
+                android:inputType="number" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/spnBloodGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tILBabyWeight"
+            android:layout_marginEnd="@dimen/d8dp"
+            android:layout_marginStart="@dimen/d8dp"
+            android:layout_marginTop="@dimen/d16dp"
+            android:background="@drawable/eclipse_white" />
+
+        <LinearLayout
+            android:id="@+id/line1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spnBloodGroup"
+            android:layout_marginEnd="@dimen/d8dp"
+            android:layout_marginStart="@dimen/d8dp"
+            android:layout_marginTop="@dimen/d16dp"
+            android:orientation="vertical"
+            android:baselineAligned="false"
+            android:weightSum="2">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tILBabyDateOfBirth"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/d16dp"
+                android:layout_weight="1"
+                android:background="@drawable/eclipse_white">
+
+                <EditText
+                    android:id="@+id/etBabyDateOfBirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_calendar"
+                    android:editable="false"
+                    android:drawablePadding="@dimen/d5dp"
+                    android:hint="@string/date_of_birth"
+                    android:imeOptions="actionDone"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tILBabyTimeofBirth"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/d16dp"
+                android:layout_marginStart="@dimen/d2dp"
+                android:layout_weight="1"
+                android:background="@drawable/eclipse_white">
+
+                <EditText
+                    android:id="@+id/etBabyTimeofBirth"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_clock"
+                    android:editable="false"
+                    android:drawablePadding="@dimen/d5dp"
+                    android:hint="@string/time_of_birth"
+                    android:imeOptions="actionDone"/>
+
+            </android.support.design.widget.TextInputLayout>
+        </LinearLayout>
+
+        <Spinner
+            android:id="@+id/spnGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line1"
+            android:layout_marginEnd="@dimen/d8dp"
+            android:layout_marginStart="@dimen/d8dp"
+            android:layout_marginTop="@dimen/d16dp"
+            android:layout_marginBottom="@dimen/d48dp"
+            android:background="@drawable/eclipse_white" />
+
+    </RelativeLayout>
+</ScrollView>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tILBabyTag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/d8dp"
+        android:layout_marginStart="@dimen/d8dp"
+        android:layout_marginTop="@dimen/d50dp"
+        android:background="@drawable/eclipse_white">
+
+        <EditText
+            android:id="@+id/etBabyTag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/d5dp"
+            android:hint="@string/tag_id"
+            android:maxLines="1"
+            android:imeOptions="actionNext" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tILBabySpecialNotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/d8dp"
+        android:layout_marginStart="@dimen/d8dp"
+        android:layout_marginTop="@dimen/d16dp"
+        android:layout_below="@id/tILBabyTag"
+        android:background="@drawable/eclipse_white">
+
+        <EditText
+            android:id="@+id/etBabySpecialNotes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/d5dp"
+            android:hint="@string/special_notes"
+            android:maxLines="15"
+            android:imeOptions="actionDone" />
+
+    </android.support.design.widget.TextInputLayout>
+</RelativeLayout>
