@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.bonny.bonnyphc.R;
 import com.bonny.bonnyphc.adapters.ScheduleRecyclerViewAdapter;
+import com.bonny.bonnyphc.models.FormDataHolder;
 import com.bonny.bonnyphc.models.ScheduleLists;
 
 /**
@@ -25,6 +26,16 @@ public class ScheduleFragment extends Fragment {
     private FloatingActionButton fabVaccine;
 
     public ScheduleFragment() {
+    }
+
+    public static ScheduleFragment newInstance(int someInt) {
+        ScheduleFragment myFragment = new ScheduleFragment();
+
+        Bundle args = new Bundle();
+        args.putInt("babyId", someInt);
+        myFragment.setArguments(args);
+
+        return myFragment;
     }
 
     @Override
@@ -41,7 +52,7 @@ public class ScheduleFragment extends Fragment {
         fabVaccine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                FormDataHolder.id = getArguments().getInt("babyId");
                 dialogFragment.show(getFragmentManager(), "Bottom sheet");
             }
         });
@@ -61,8 +72,8 @@ public class ScheduleFragment extends Fragment {
                 ScheduleLists.fullScheduleList);
 
         recyclerView.setAdapter(scheduleRecyclerViewAdapter);
-
-
         return view;
     }
+
+
 }

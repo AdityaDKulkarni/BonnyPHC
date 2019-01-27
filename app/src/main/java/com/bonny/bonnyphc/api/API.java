@@ -4,15 +4,19 @@ import com.bonny.bonnyphc.models.AppointmentModel;
 import com.bonny.bonnyphc.models.BabyModel;
 import com.bonny.bonnyphc.models.EmployeeModel;
 import com.bonny.bonnyphc.models.ParentModel;
+import com.bonny.bonnyphc.models.RecordModel;
 import com.bonny.bonnyphc.models.TokenModel;
 import com.bonny.bonnyphc.models.UserModel;
 import com.bonny.bonnyphc.models.VaccineModel;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -82,5 +86,25 @@ public interface API {
     Call<List<AppointmentModel>> getAppointments(
             @Header("Authorization") String key,
             @Query("pk") int pk
+    );
+
+    @GET("api/vaccinations/")
+    Call<List<RecordModel>> getRecords(
+            @Header("Authorization") String key,
+            @Query("pk") int pk
+    );
+
+    @POST("api/appointments/")
+    @FormUrlEncoded
+    Call<AppointmentModel> createAppointment(
+            @Header("Authorization") String key,
+            @Field("baby") int id
+    );
+
+    @POST("api/schedule_vaccines/")
+    @FormUrlEncoded
+    Call<ResponseBody> scheduleVaccine(
+            @Field("appointment") int appointment,
+            @Field("vaccines") String vaccines
     );
 }

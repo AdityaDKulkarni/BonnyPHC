@@ -52,7 +52,7 @@ public class Utils {
         return null;
     }
 
-    public static String getRawBloodGroup(String blood_group){
+    public static String getRawBloodGroup(String blood_group) {
         switch (blood_group) {
             case "A positive":
                 return "a_positive";
@@ -82,8 +82,8 @@ public class Utils {
         return null;
     }
 
-    public static String getDosage(String dosage){
-        switch (dosage){
+    public static String getDosage(String dosage) {
+        switch (dosage) {
             case "bcg":
                 return "BCG";
 
@@ -157,7 +157,81 @@ public class Utils {
         return null;
     }
 
-    public static ArrayAdapter<String> pendingVaccineAdapter(Context context){
+    public static String getRawVaccine(String blood_group) {
+        switch (blood_group) {
+            case "BCG":
+                return "bcg";
+
+            case "OPV0":
+                return "opv";
+
+            case "HEP-B 1":
+                return "hepb1";
+
+            case "DTwP 1":
+                return "dt1";
+
+            case "IPV 1":
+                return "ipv1";
+
+            case "HEP-B 2":
+                return "hepb2";
+
+            case "HIB 1":
+                return "hib1";
+
+            case "Rotavirus 1":
+                return "rota1";
+
+            case "PCV 1":
+                return "pcv1";
+
+            case "DTwP 2":
+                return "dt2";
+
+            case "IPV 2":
+                return "ipv2";
+
+            case "HIB 2":
+                return "hib2";
+
+            case "Rotavirus 2":
+                return "rota2";
+
+            case "PCV 2":
+                return "pcv2";
+
+            case "DTwP 3":
+                return "dt3";
+
+            case "IPV 3":
+                return "ipv3";
+
+            case "HIB 3":
+                return "hib3";
+
+            case "Rotavirus 3":
+                return "rota3";
+
+            case "PCV 3":
+                return "pcv3";
+
+            case "OPV 1":
+                return "opv1";
+
+            case "HEP-B 3":
+                return "hepb3";
+
+            case "OPV 2":
+                return "opv2";
+
+            case "MMR-1":
+                return "mmr1";
+        }
+        return null;
+    }
+
+    public static ArrayAdapter<String> pendingVaccineAdapter(Context context) {
         ArrayAdapter arrayAdapter;
         ArrayList<String> strings = new ArrayList<>();
         strings.add("Select");
@@ -184,7 +258,7 @@ public class Utils {
         strings.add("hepb3");
         strings.add("opv2");
         strings.add("mmr1");
-        arrayAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1,strings);
+        arrayAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_1, strings);
         return arrayAdapter;
     }
 }

@@ -4,9 +4,14 @@
     android:layout_height="wrap_content"
     tools:context="com.bonny.bonnyphc.ui.fragments.AppointmentHistoryFragment">
 
-
-    <ListView
-        android:id="@+id/lvAppointment"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeHistory"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/lvAppointment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>

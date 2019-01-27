@@ -231,7 +231,7 @@ public class AllBabiesActivity extends AppCompatActivity
                 }
                 switch (response.code()) {
                     case 200:
-                        ScheduleLists.pendingScheduleList = new ArrayList<>();
+                        ScheduleLists.currentWeekVaccineList = new ArrayList<>();
                         ScheduleLists.fullScheduleList = new ArrayList<>();
                         for (int i = 0; i < response.body().size(); i++) {
                             VaccineModel vaccineModel = new VaccineModel();
@@ -244,7 +244,7 @@ public class AllBabiesActivity extends AppCompatActivity
 
                             if(vaccineModel.getStatus().equalsIgnoreCase("pending")
                                     && vaccineModel.getWeek() == babyModels.get(position).getWeek()){
-                                ScheduleLists.pendingScheduleList.add(vaccineModel);
+                                ScheduleLists.currentWeekVaccineList.add(vaccineModel);
                             }
                         }
                         ScheduleLists.fullScheduleList = vaccineModels;

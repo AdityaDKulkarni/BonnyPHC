@@ -8,6 +8,6 @@ import java.util.ArrayList;
 
 public class ScheduleLists {
     public static ArrayList<VaccineModel> fullScheduleList;
-    public static ArrayList<VaccineModel> pendingScheduleList;
+    public static ArrayList<VaccineModel> currentWeekVaccineList;
     public static ArrayList<VaccineModel> selectedVaccinesForScheduleList;
 }

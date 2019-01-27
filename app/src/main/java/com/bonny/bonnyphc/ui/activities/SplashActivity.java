@@ -19,6 +19,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         getSupportActionBar().setTitle(getResources().getString(R.string.app_name));
+        getSupportActionBar().setElevation(0);
         sessionManager = new SessionManager(this);
         handler = new Handler();
         runnable = new Runnable() {

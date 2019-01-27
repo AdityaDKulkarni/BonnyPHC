@@ -3,14 +3,13 @@ package com.bonny.bonnyphc.adapters;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bonny.bonnyphc.R;
+import com.bonny.bonnyphc.models.RecordModel;
 import com.bonny.bonnyphc.models.VaccineModel;
 
 import java.util.ArrayList;
@@ -18,14 +17,16 @@ import java.util.ArrayList;
 /**
  * @author Aditya Kulkarni
  */
-public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRecyclerViewAdapter.ViewHolder> {
 
-    private final ArrayList<VaccineModel> vaccineModels;
+public class HistoryRecordsAdapter extends RecyclerView.Adapter<HistoryRecordsAdapter.ViewHolder> {
+
+    private final ArrayList<RecordModel> vaccineModels;
     private String TAG = getClass().getSimpleName();
     private Context context;
+    private LayoutInflater layoutInflater;
 
-    public ScheduleRecyclerViewAdapter(Context context, ArrayList<VaccineModel> items) {
-        vaccineModels = items;
+    public HistoryRecordsAdapter(ArrayList<RecordModel> vaccineModels, Context context) {
+        this.vaccineModels = vaccineModels;
         this.context = context;
     }
 
@@ -40,17 +41,17 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.vaccineModel = vaccineModels.get(position);
         holder.tvVaccineName.setText(vaccineModels.get(position).getVaccine());
-        holder.tvVaccineDate.setText(vaccineModels.get(position).getTentative_date());
-        holder.tvVaccineWeek.setText(String.valueOf(vaccineModels.get(position).getWeek()));
+        holder.tvVaccineDate.setText(vaccineModels.get(position).getDose());
+        holder.tvVaccineWeek.setText(String.valueOf(vaccineModels.get(position).getAmount()));
         if(vaccineModels.get(position).getStatus().equalsIgnoreCase("pending")){
             holder.tvVaccineStatus.setTextColor(Color.RED);
-            holder.tvVaccineStatus.setText(R.string.pending);
+            holder.tvVaccineStatus.setText("Pending");
         }else if(vaccineModels.get(position).getStatus().equalsIgnoreCase("administered")){
             holder.tvVaccineStatus.setTextColor(context.getResources().getColor(R.color.green));
-            holder.tvVaccineStatus.setText(R.string.administered);
+            holder.tvVaccineStatus.setText("Administered");
         }else if(vaccineModels.get(position).getStatus().equalsIgnoreCase("scheduled")){
             holder.tvVaccineStatus.setTextColor(context.getResources().getColor(R.color.yellow));
-            holder.tvVaccineStatus.setText(R.string.scheduled);
+            holder.tvVaccineStatus.setText("Scheduled");
         }
     }
 
@@ -61,7 +62,7 @@ public class ScheduleRecyclerViewAdapter extends RecyclerView.Adapter<ScheduleRe
 
     class ViewHolder extends RecyclerView.ViewHolder {
         final TextView tvVaccineName, tvVaccineDate, tvVaccineWeek, tvVaccineStatus;
-        VaccineModel vaccineModel;
+        RecordModel vaccineModel;
 
         ViewHolder(View view) {
             super(view);

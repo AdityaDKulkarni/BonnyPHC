@@ -7,4 +7,5 @@ package com.bonny.bonnyphc.config;
 public interface URLConstants {
 
     static String BASE_URL = "https://ameydarekar.pythonanywhere.com/";
+    static String TUNNEL_URL = "https://d022cca3.ngrok.io/";
 }

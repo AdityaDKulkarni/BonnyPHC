@@ -34,4 +34,5 @@
     <dimen name="d4dp">4dp</dimen>
     <dimen name="d45dp">45dp</dimen>
     <dimen name="d1dp">1dp</dimen>
+    <dimen name="d12dp">12dp</dimen>
 </resources>

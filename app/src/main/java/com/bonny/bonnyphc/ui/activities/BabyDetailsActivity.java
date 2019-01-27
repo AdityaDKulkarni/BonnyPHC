@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.bonny.bonnyphc.R;
 import com.bonny.bonnyphc.adapters.PagerAdapter;
 import com.bonny.bonnyphc.models.BabyModel;
+import com.bonny.bonnyphc.models.FormDataHolder;
 import com.bonny.bonnyphc.ui.fragments.AppointmentHistoryFragment;
 import com.bonny.bonnyphc.ui.fragments.ScheduleFragment;
 
@@ -20,6 +21,7 @@ public class BabyDetailsActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private PagerAdapter pagerAdapter;
     private TabLayout tabLayout;
+    private BabyModel babyModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +33,15 @@ public class BabyDetailsActivity extends AppCompatActivity {
 
         initUi();
 
+        if(getIntent().hasExtra("babyModel")){
+            babyModel = (BabyModel) getIntent().getExtras().get("babyModel");
+        }
+
         tabLayout = findViewById(R.id.tlToolbarTabs);
         viewPager = findViewById(R.id.vPSchedule);
+        viewPager.setId(R.id.vPSchedule);
         pagerAdapter = new PagerAdapter(BabyDetailsActivity.this.getSupportFragmentManager());
-        pagerAdapter.addFragments(new ScheduleFragment(), getString(R.string.schedule));
+        pagerAdapter.addFragments(ScheduleFragment.newInstance(babyModel.getId()), getString(R.string.schedule));
         pagerAdapter.addFragments(new AppointmentHistoryFragment(), getString(R.string.history));
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
