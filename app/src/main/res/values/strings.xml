@@ -72,6 +72,14 @@
     <string name="scheduling_vaccines">Scheduling vaccines…</string>
     <string name="vaccines_shceduled">Vaccines scheduled</string>
     <string name="pending">Pending</string>
-    <string name="administered">Administered</string>
     <string name="scheduled">Scheduled</string>
+    <string name="administered">Administered</string>
+    <string name="mark_accepted">Accept</string>
+    <string name="mark_rejected">Reject</string>
+    <string name="session_expired">Session expired. Please login again.</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="mark_administered">Administer</string>
+    <string name="mark_cancel">Cancel</string>
+    <string name="edit">Edit</string>
+    <string name="update_details">Update details</string>
 </resources>

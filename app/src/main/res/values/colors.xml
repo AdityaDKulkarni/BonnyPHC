@@ -14,4 +14,5 @@
     <color name="yellow">#FBC02D</color>
     <color name="green">#689F38</color>
     <color name="grey">#beb8b8</color>
+    <color name="vaccine_record_card_bg">#f5f3f3</color>
 </resources>

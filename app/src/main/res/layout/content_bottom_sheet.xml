@@ -21,6 +21,16 @@
         android:textColor="@color/white"
         android:textSize="@dimen/s24sp" />
 
+    <TextView
+        android:id="@+id/tvBabyNotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/d4dp"
+        android:textSize="@dimen/s18sp"
+        android:visibility="gone"
+        android:textColor="@android:color/holo_red_light"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvPendingVaccine"
         android:layout_width="match_parent"

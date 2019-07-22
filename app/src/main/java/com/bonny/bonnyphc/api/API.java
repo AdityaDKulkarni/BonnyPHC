@@ -15,12 +15,16 @@ import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -76,6 +80,13 @@ public interface API {
             @Field("text_notifications") boolean text_notifs
     );
 
+    @PATCH("api/babies/{pk}/")
+    Call<ResponseBody> updateBabies(
+            @Header("Authorization") String key,
+            @Path("pk") int pk,
+            @Body BabyModel babyModel
+    );
+
     @GET("api/schedule/")
     Call<List<VaccineModel>> getSchedule(
             @Header("Authorization") String key,
@@ -94,6 +105,13 @@ public interface API {
             @Query("pk") int pk
     );
 
+    @PATCH("api/vaccinations/{pk}/")
+    Call<RecordModel> updateRecords(
+            @Header("Authorization") String key,
+            @Path("pk") int pk,
+            @Body RecordModel recordModel
+    );
+
     @POST("api/appointments/")
     @FormUrlEncoded
     Call<AppointmentModel> createAppointment(
@@ -104,6 +122,7 @@ public interface API {
     @POST("api/schedule_vaccines/")
     @FormUrlEncoded
     Call<ResponseBody> scheduleVaccine(
+            @Header("Authorization") String key,
             @Field("appointment") int appointment,
             @Field("vaccines") String vaccines
     );

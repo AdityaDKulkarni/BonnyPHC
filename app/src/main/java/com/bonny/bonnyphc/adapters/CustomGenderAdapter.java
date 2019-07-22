@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bonny.bonnyphc.R;
 import com.bonny.bonnyphc.models.FormDataHolder;
+import com.bonny.bonnyphc.util.Utils;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,9 @@ public class CustomGenderAdapter extends ArrayAdapter<String> {
         tvParentName.setBackground(context.getResources().getDrawable(R.drawable.eclipse_white));
         tvParentName.setText(strings.get(position));
         FormDataHolder.gender = strings.get(position);
+        if(FormDataHolder.babyModel != null){
+            FormDataHolder.babyModel.setGender(strings.get(position).toLowerCase());
+        }
         return convertView;
     }
 
@@ -53,6 +57,7 @@ public class CustomGenderAdapter extends ArrayAdapter<String> {
         TextView tvParentName = convertView.findViewById(R.id.tvCustomSpinnerItem);
         tvParentName.setBackground(context.getResources().getDrawable(R.drawable.eclipse_white));
         tvParentName.setText(strings.get(position));
+        Log.e("Adapter", "Setting dropdown text");
         return convertView;
     }
 }

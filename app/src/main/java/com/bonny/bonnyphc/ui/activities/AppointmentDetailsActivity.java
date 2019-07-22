@@ -9,7 +9,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.bonny.bonnyphc.R;
-import com.bonny.bonnyphc.adapters.HistoryRecordsAdapter;
+import com.bonny.bonnyphc.adapters.ScheduledVaccinesAdapter;
 import com.bonny.bonnyphc.api.API;
 import com.bonny.bonnyphc.config.RetrofitConfig;
 import com.bonny.bonnyphc.models.FormDataHolder;
@@ -82,7 +82,7 @@ public class AppointmentDetailsActivity extends AppCompatActivity {
                     recordModels.add(response.body().get(i));
                 }
 
-                recyclerView.setAdapter(new HistoryRecordsAdapter(recordModels, AppointmentDetailsActivity.this));
+                recyclerView.setAdapter(new ScheduledVaccinesAdapter(recordModels, AppointmentDetailsActivity.this));
                 if(progressDialog.isShowing()){
                     progressDialog.dismiss();
                 }

@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bonny.bonnyphc.R;
@@ -34,6 +35,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static java.security.AccessController.getContext;
+
 /**
  * @author Aditya Kulkarni
  */
@@ -42,6 +45,7 @@ import retrofit2.Response;
 public class BottomDialogFragment extends BottomSheetDialogFragment {
 
     String vaccines;
+    SessionManager sessionManager;
     public static BottomDialogFragment getInstance() {
         return new BottomDialogFragment();
     }
@@ -49,8 +53,10 @@ public class BottomDialogFragment extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.content_bottom_sheet, container, false);
+        final TextView tvNotes = view.findViewById(R.id.tvBabyNotes);
         final Button btnSchedule = view.findViewById(R.id.btnScheduleVaccine);
         RecyclerView rvPendingVaccine = view.findViewById(R.id.rvPendingVaccine);
+        sessionManager = new SessionManager(getActivity());
         rvPendingVaccine.addItemDecoration(new DividerItemDecoration(getActivity(),
                 DividerItemDecoration.VERTICAL));
         rvPendingVaccine.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -65,6 +71,10 @@ public class BottomDialogFragment extends BottomSheetDialogFragment {
                 }
             }
         });
+        if(!FormDataHolder.specialNotes.equalsIgnoreCase("na")){
+            tvNotes.setVisibility(View.VISIBLE);
+            tvNotes.setText(FormDataHolder.specialNotes);
+        }
         rvPendingVaccine.setAdapter(new PendingVaccineListAdapter(getContext(), ScheduleLists.currentWeekVaccineList));
         ScheduleLists.selectedVaccinesForScheduleList = new ArrayList<>();
         ScheduleLists.selectedVaccinesForScheduleList.clear();
@@ -96,7 +106,7 @@ public class BottomDialogFragment extends BottomSheetDialogFragment {
                                 }
 
                                 vaccines = stringBuffer.toString();
-                                Call<ResponseBody> call1 = api1.scheduleVaccine(response.body().getId(),
+                                Call<ResponseBody> call1 = api1.scheduleVaccine(sessionManager.getUserDetails().get("key"), response.body().getId(),
                                         vaccines);
 
                                 call1.enqueue(new Callback<ResponseBody>() {

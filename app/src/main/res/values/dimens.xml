@@ -25,7 +25,6 @@
     <dimen name="d20dp">20dp</dimen>
     <dimen name="d0dp">0dp</dimen>
     <dimen name="d48dp">48dp</dimen>
-    <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
     <dimen name="s32sp">32sp</dimen>
     <dimen name="d256dp">256dp</dimen>
@@ -35,4 +34,6 @@
     <dimen name="d45dp">45dp</dimen>
     <dimen name="d1dp">1dp</dimen>
     <dimen name="d12dp">12dp</dimen>
+    <dimen name="d210dp">210dp</dimen>
+    <dimen name="d200dp">200dp</dimen>
 </resources>

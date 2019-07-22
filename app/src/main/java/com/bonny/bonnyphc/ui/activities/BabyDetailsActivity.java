@@ -1,12 +1,16 @@
 package com.bonny.bonnyphc.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bonny.bonnyphc.R;
 import com.bonny.bonnyphc.adapters.PagerAdapter;
@@ -22,6 +26,8 @@ public class BabyDetailsActivity extends AppCompatActivity {
     private PagerAdapter pagerAdapter;
     private TabLayout tabLayout;
     private BabyModel babyModel;
+    private TextView tvDetailsBabyName,tvDetailsBabyBloodGroup,tvDetailsBabyWeight;
+    private Button btnEdit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +41,10 @@ public class BabyDetailsActivity extends AppCompatActivity {
 
         if(getIntent().hasExtra("babyModel")){
             babyModel = (BabyModel) getIntent().getExtras().get("babyModel");
+            tvDetailsBabyName.setText("Name: " + babyModel.getFirst_name());
+            tvDetailsBabyBloodGroup.setText("Blood Group: " + babyModel.getBlood_group());
+            tvDetailsBabyWeight.setText("Weight: " + String.valueOf(babyModel.getWeight()) + " Kg");
+            FormDataHolder.specialNotes = babyModel.getSpecial_notes();
         }
 
         tabLayout = findViewById(R.id.tlToolbarTabs);
@@ -69,6 +79,19 @@ public class BabyDetailsActivity extends AppCompatActivity {
 
     private void initUi(){
         viewPager = findViewById(R.id.vPSchedule);
+        tvDetailsBabyName = findViewById(R.id.tvDetailsBabyName);
+        tvDetailsBabyBloodGroup = findViewById(R.id.tvDetailsBabyBloodGroup);
+        tvDetailsBabyWeight = findViewById(R.id.tvDetailsBabyWeight);
+        btnEdit = findViewById(R.id.btnEdit);
+
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BabyDetailsActivity.this, BabyFormActivity.class);
+                intent.putExtra("babyModel", babyModel);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

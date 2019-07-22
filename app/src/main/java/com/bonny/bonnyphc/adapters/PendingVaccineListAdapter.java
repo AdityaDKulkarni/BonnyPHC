@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * @author Aditya Kulkarni
  */
 
-public class PendingVaccineListAdapter extends RecyclerView.Adapter<PendingVaccineListAdapter.ViewHolder>{
+public class PendingVaccineListAdapter extends RecyclerView.Adapter<PendingVaccineListAdapter.ViewHolder> {
     private Context context;
     private ArrayList<VaccineModel> vaccineModels;
     private View view;
@@ -44,33 +44,24 @@ public class PendingVaccineListAdapter extends RecyclerView.Adapter<PendingVacci
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        try{
-            if(vaccineModels.get(position).getStatus().equalsIgnoreCase("pending")) {
+        try {
+            if (vaccineModels.get(position).getStatus().equalsIgnoreCase("pending")) {
                 holder.cbMarkVaccine.setText(vaccineModels.get(position).getVaccine());
-                holder.spnDosage.setAdapter(Utils.pendingVaccineAdapter(context));
 
                 holder.cbMarkVaccine.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                        if (compoundButton.isChecked()){
-                            if(holder.spnDosage.getSelectedItem().toString().equalsIgnoreCase("select")){
-                                Toast.makeText(context, context.getString(R.string.select_dose_mfg), Toast.LENGTH_SHORT).show();
-                                compoundButton.setChecked(false);
-                            }else if(holder.etDosageAmount.getText().toString().isEmpty()){
-                                holder.etDosageAmount.setError(context.getString(R.string.please_specify_dose_amount));
-                                compoundButton.setChecked(false);
-                            }else{
-                                if(!ScheduleLists.selectedVaccinesForScheduleList.contains(vaccineModels.get(position))) {
-                                    ScheduleLists.selectedVaccinesForScheduleList.add(vaccineModels.get(position));
-                                }
+                        if (compoundButton.isChecked()) {
+                            if (!ScheduleLists.selectedVaccinesForScheduleList.contains(vaccineModels.get(position))) {
+                                ScheduleLists.selectedVaccinesForScheduleList.add(vaccineModels.get(position));
                             }
-                        }else if(!compoundButton.isChecked()){
+                        } else if (!compoundButton.isChecked()) {
                             ScheduleLists.selectedVaccinesForScheduleList.remove(vaccineModels.get(position));
                         }
                     }
                 });
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -81,19 +72,15 @@ public class PendingVaccineListAdapter extends RecyclerView.Adapter<PendingVacci
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         private CheckBox cbMarkVaccine;
-        private Spinner spnDosage;
-        private EditText etDosageAmount;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             cbMarkVaccine = itemView.findViewById(R.id.cbMarkVaccine);
             cbMarkVaccine.setSelected(true);
-            spnDosage = itemView.findViewById(R.id.spnDose);
-            etDosageAmount = itemView.findViewById(R.id.etDoseAmount);
         }
     }
 }

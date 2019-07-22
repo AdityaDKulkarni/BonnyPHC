@@ -45,6 +45,9 @@ public class CusotomBloodGroupAdapter extends ArrayAdapter<String>{
         tvParentName.setBackground(context.getResources().getDrawable(R.drawable.eclipse_white));
         tvParentName.setText(strings.get(position));
         FormDataHolder.bloodGroup = Utils.getRawBloodGroup(strings.get(position));
+        if(FormDataHolder.babyModel != null){
+            FormDataHolder.babyModel.setBlood_group(Utils.getRawBloodGroup(strings.get(position)));
+        }
         return convertView;
     }
 

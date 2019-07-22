@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ public class AllBabiesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private NavigationView navigationView;
+    private Toolbar toolbar;
     private View navHeaderView;
     private TextView tvName, tvEmail;
     private RecyclerView rvBabies;
@@ -60,7 +62,7 @@ public class AllBabiesActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.all_babies));
 
@@ -139,15 +141,8 @@ public class AllBabiesActivity extends AppCompatActivity
                     case 200:
                         babyModels = new ArrayList<>();
                         for (int i = 0; i < response.body().size(); i++) {
-                            BabyModel babyModel = new BabyModel();
-                            babyModel.setId(response.body().get(i).getId());
-                            babyModel.setWeek(response.body().get(i).getWeek());
-                            babyModel.setFirst_name(response.body().get(i).getFirst_name());
-                            babyModel.setPlace_of_birth(response.body().get(i).getPlace_of_birth());
-                            babyModel.setBlood_group(Utils.getFormattedBloodGroup(response.body().get(i).getBlood_group()));
-                            babyModel.setGender(response.body().get(i).getGender());
-                            babyModel.setBirth_date(response.body().get(i).getBirth_date());
-                            babyModel.setWeight(response.body().get(i).getWeight());
+                            BabyModel babyModel = response.body().get(i);
+                            babyModel.setBlood_group(Utils.getFormattedBloodGroup(babyModel.getBlood_group()));
                             babyModels.add(babyModel);
                         }
                         if (swipeRefreshLayout.isRefreshing()) {
@@ -210,7 +205,9 @@ public class AllBabiesActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<List<EmployeeModel>> call, Throwable t) {
-
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(AllBabiesActivity.this, getString(R.string.session_expired), Toast.LENGTH_LONG).show();
+                sessionManager.logOutUser();
             }
         });
     }
@@ -278,23 +275,6 @@ public class AllBabiesActivity extends AppCompatActivity
         } else {
             finishAffinity();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

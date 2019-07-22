@@ -82,8 +82,8 @@ public class Utils {
         return null;
     }
 
-    public static String getDosage(String dosage) {
-        switch (dosage) {
+    public static String getFormattedVaccine(String vaccine) {
+        switch (vaccine) {
             case "bcg":
                 return "BCG";
 

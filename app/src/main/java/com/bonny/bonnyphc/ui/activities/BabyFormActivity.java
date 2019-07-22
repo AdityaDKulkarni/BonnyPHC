@@ -89,6 +89,14 @@ public class BabyFormActivity extends AppCompatActivity implements View.OnClickL
 
         nfcHandler = new NFCHandler(NfcAdapter.getDefaultAdapter(BabyFormActivity.this), this);
 
+        if (getIntent().hasExtra("babyModel")) {
+            getSupportActionBar().setTitle(getString(R.string.update_details));
+            FormDataHolder.babyModel = (BabyModel) getIntent().getExtras().get("babyModel");
+        } else {
+            FormDataHolder.babyModel = null;
+            FormDataHolder.flag = false;
+        }
+
     }
 
     private void viewPagerListeners() {
@@ -178,45 +186,75 @@ public class BabyFormActivity extends AppCompatActivity implements View.OnClickL
             if (current < NUMBER_OF_SLIDES) {
                 viewPager.setCurrentItem(current);
             } else {
-                if(FormDataHolder.parent == -1 ||
-                FormDataHolder.firstName == null ||
-                        FormDataHolder.lastName == null ||
-                        FormDataHolder.placeOfBirth == null ||
-                        FormDataHolder.weight  == -1||
-                        FormDataHolder.bloodGroup == null ||
-                        FormDataHolder.dateOfBirth == null ||
-                        FormDataHolder.timeOfBirth == null ||
-                        FormDataHolder.gender == null ||
-                        FormDataHolder.tag == null ||
-                        FormDataHolder.specialNotes == null){
-                    Snackbar.make(view, getString(R.string.all_fields_required), Snackbar.LENGTH_LONG).show();
-                }else{
-                    final ProgressDialog progressDialog = ProgressDialogUtil.progressDialog(BabyFormActivity.this,
-                            getString(R.string.please_wait), false);
-                    progressDialog.show();
-                    API api = new RetrofitConfig().config();
 
-                    Call<ResponseBody> call = api.postBabyDetails(token,
-                            FormDataHolder.parent,
-                            FormDataHolder.firstName,
-                            FormDataHolder.lastName,
-                            FormDataHolder.placeOfBirth,
-                            FormDataHolder.weight,
-                            FormDataHolder.bloodGroup,
-                            FormDataHolder.dateOfBirth + "T" + FormDataHolder.timeOfBirth + ":00" + "+00:00",
-                            FormDataHolder.gender.toLowerCase(),
-                            FormDataHolder.tag,
-                            FormDataHolder.specialNotes,
-                            false);
+                final ProgressDialog progressDialog = ProgressDialogUtil.progressDialog(BabyFormActivity.this,
+                        getString(R.string.please_wait), false);
+                progressDialog.show();
+                API api = new RetrofitConfig().config();
 
+                if (!FormDataHolder.flag) {
+                    if (FormDataHolder.parent == -1 ||
+                            FormDataHolder.firstName == null ||
+                            FormDataHolder.lastName == null ||
+                            FormDataHolder.placeOfBirth == null ||
+                            FormDataHolder.weight == -1 ||
+                            FormDataHolder.bloodGroup == null ||
+                            FormDataHolder.dateOfBirth == null ||
+                            FormDataHolder.timeOfBirth == null ||
+                            FormDataHolder.gender == null ||
+                            FormDataHolder.tag == null ||
+                            FormDataHolder.specialNotes == null) {
+                        Snackbar.make(view, getString(R.string.all_fields_required), Snackbar.LENGTH_LONG).show();
+                    }else {
+                        Call<ResponseBody> call = api.postBabyDetails(token,
+                                FormDataHolder.parent,
+                                FormDataHolder.firstName,
+                                FormDataHolder.lastName,
+                                FormDataHolder.placeOfBirth,
+                                FormDataHolder.weight,
+                                FormDataHolder.bloodGroup,
+                                FormDataHolder.dateOfBirth + "T" + FormDataHolder.timeOfBirth + ":00" + "+00:00",
+                                FormDataHolder.gender.toLowerCase(),
+                                FormDataHolder.tag,
+                                FormDataHolder.specialNotes,
+                                false);
+
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if (progressDialog.isShowing()) {
+                                    progressDialog.dismiss();
+                                }
+                                switch (response.code()) {
+                                    case 201:
+                                        Snackbar.make(view, getString(R.string.success), Snackbar.LENGTH_LONG).show();
+                                        finish();
+                                        break;
+                                    default:
+                                        Snackbar.make(view, getString(R.string.something_went_wrong), Snackbar.LENGTH_LONG).show();
+                                        break;
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                if (progressDialog.isShowing()) {
+                                    progressDialog.dismiss();
+                                }
+                                Snackbar.make(view, getString(R.string.failure), Snackbar.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                } else {
+                    Call<ResponseBody> call = api.updateBabies(token, FormDataHolder.babyModel.getId(), FormDataHolder.babyModel);
                     call.enqueue(new Callback<ResponseBody>() {
                         @Override
                         public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                            if(progressDialog.isShowing()){
+                            if (progressDialog.isShowing()) {
                                 progressDialog.dismiss();
                             }
-                            switch (response.code()){
-                                case 201:
+                            switch (response.code()) {
+                                case 200:
                                     Snackbar.make(view, getString(R.string.success), Snackbar.LENGTH_LONG).show();
                                     finish();
                                     break;
@@ -225,9 +263,10 @@ public class BabyFormActivity extends AppCompatActivity implements View.OnClickL
                                     break;
                             }
                         }
+
                         @Override
                         public void onFailure(Call<ResponseBody> call, Throwable t) {
-                            if(progressDialog.isShowing()){
+                            if (progressDialog.isShowing()) {
                                 progressDialog.dismiss();
                             }
                             Snackbar.make(view, getString(R.string.failure), Snackbar.LENGTH_LONG).show();

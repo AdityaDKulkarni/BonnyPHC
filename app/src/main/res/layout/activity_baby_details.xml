@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
@@ -12,7 +11,7 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="@dimen/d200dp"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
@@ -25,50 +24,93 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:titleEnabled="false">
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_gravity="top"
-                android:layout_marginTop="@dimen/d8dp"
-                android:layout_marginBottom="@dimen/d48dp"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title="@string/title_activity_baby_details" />
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tlToolbarTabs"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabIndicatorColor="@color/white"
-                app:tabSelectedTextColor="@color/white"
-                android:layout_gravity="bottom">
+                android:orientation="vertical">
 
-                <android.support.design.widget.TabItem
-                    android:id="@+id/tabItem"
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    app:title="@string/title_activity_baby_details" />
+
+                <TextView
+                    android:id="@+id/tvDetailsBabyName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/schedule"
-                    android:textAlignment="center" />
+                    android:layout_below="@id/toolbar"
+                    android:textSize="@dimen/s18sp"
+                    android:layout_marginStart="@dimen/d8dp"
+                    android:textColor="@color/white"/>
 
-                <android.support.design.widget.TabItem
-                    android:id="@+id/tabItem2"
+                <TextView
+                    android:id="@+id/tvDetailsBabyBloodGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/history"
-                    android:textAlignment="center" />
+                    android:layout_alignStart="@id/tvDetailsBabyName"
+                    android:layout_below="@id/tvDetailsBabyName"
+                    android:textSize="@dimen/s18sp"
+                    android:textColor="@color/white"/>
+
+                <TextView
+                    android:id="@+id/tvDetailsBabyWeight"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/tvDetailsBabyName"
+                    android:layout_below="@id/tvDetailsBabyBloodGroup"
+                    android:textSize="@dimen/s18sp"
+                    android:textColor="@color/white"/>
+
+                <Button
+                    android:id="@+id/btnEdit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/edit"
+                    android:textAllCaps="false"
+                    android:backgroundTint="@color/white"
+                    android:textColor="@color/colorAccent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tlToolbarTabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_below="@id/tvDetailsBabyWeight"
+                    app:tabIndicatorColor="@color/white"
+                    app:tabSelectedTextColor="@color/white">
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/tabItem"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/schedule"
+                        android:textAlignment="center" />
+
+                    <android.support.design.widget.TabItem
+                        android:id="@+id/tabItem2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/history"
+                        android:textAlignment="center" />
 
 
-            </android.support.design.widget.TabLayout>
+                </android.support.design.widget.TabLayout>
+            </RelativeLayout>
 
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vPSchedule"
-        android:background="@color/activity_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/activity_background"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton

@@ -69,6 +69,7 @@ public class BabyFormPersonal extends Fragment{
         etFirstName = view.findViewById(R.id.etBabyFirstName);
         etLastName = view.findViewById(R.id.etBabyLastName);
         acParentName = view.findViewById(R.id.acParentName);
+
         getParents(view);
         setData();
     }
@@ -117,6 +118,24 @@ public class BabyFormPersonal extends Fragment{
                 if(progressDialog.isShowing()){
                     progressDialog.dismiss();
                 }
+
+                if(FormDataHolder.babyModel != null){
+                    acParentName.setClickable(false);
+                    etFirstName.setText(FormDataHolder.babyModel.getFirst_name());
+                    etLastName.setText(FormDataHolder.babyModel.getLast_name());
+
+                    if(parentModels != null){
+                        int parentId = FormDataHolder.babyModel.getParent();
+                        for(int i = 0; i < parentModels.size(); i++){
+                            if(parentId == parentModels.get(i).getId()){
+                                acParentName.setText(parentModels.get(i).getFirst_name()
+                                        + parentModels.get(i).getLast_name()
+                                        + " (" + parentModels.get(i).getContact() + ")");
+                                break;
+                            }
+                        }
+                    }
+                }
             }
 
             @Override
@@ -138,15 +157,17 @@ public class BabyFormPersonal extends Fragment{
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
                 if(etFirstName.getText().toString().isEmpty()){
                     etFirstName.setError(getString(R.string.cannot_be_empty));
                 }else{
                     FormDataHolder.firstName = etFirstName.getText().toString();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(FormDataHolder.babyModel != null){
+                    FormDataHolder.babyModel.setFirst_name(etFirstName.getText().toString());
                 }
             }
         });
@@ -159,15 +180,17 @@ public class BabyFormPersonal extends Fragment{
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
                 if(etLastName.getText().toString().isEmpty()){
                     etLastName.setError(getString(R.string.cannot_be_empty));
                 }else{
                     FormDataHolder.lastName = etLastName.getText().toString();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(FormDataHolder.babyModel != null){
+                    FormDataHolder.babyModel.setFirst_name(etLastName.getText().toString());
                 }
             }
         });

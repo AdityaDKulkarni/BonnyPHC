@@ -5,8 +5,8 @@ package com.bonny.bonnyphc.models;
  */
 
 public class RecordModel {
-    private int id, appointment,amount;
-    private String vaccine, dose, status;
+    private int id, appointment;
+    private String vaccine, status;
 
     public int getId() {
         return id;
@@ -24,28 +24,12 @@ public class RecordModel {
         this.appointment = appointment;
     }
 
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
     public String getVaccine() {
         return vaccine;
     }
 
     public void setVaccine(String vaccine) {
         this.vaccine = vaccine;
-    }
-
-    public String getDose() {
-        return dose;
-    }
-
-    public void setDose(String dose) {
-        this.dose = dose;
     }
 
     public String getStatus() {

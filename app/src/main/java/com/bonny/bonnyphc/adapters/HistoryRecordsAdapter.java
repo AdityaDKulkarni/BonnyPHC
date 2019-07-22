@@ -41,17 +41,15 @@ public class HistoryRecordsAdapter extends RecyclerView.Adapter<HistoryRecordsAd
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.vaccineModel = vaccineModels.get(position);
         holder.tvVaccineName.setText(vaccineModels.get(position).getVaccine());
-        holder.tvVaccineDate.setText(vaccineModels.get(position).getDose());
-        holder.tvVaccineWeek.setText(String.valueOf(vaccineModels.get(position).getAmount()));
         if(vaccineModels.get(position).getStatus().equalsIgnoreCase("pending")){
-            holder.tvVaccineStatus.setTextColor(Color.RED);
-            holder.tvVaccineStatus.setText("Pending");
+            holder.tvVaccineStatus.setTextColor(context.getResources().getColor(android.R.color.holo_red_light));
+            holder.tvVaccineStatus.setText(R.string.pending);
         }else if(vaccineModels.get(position).getStatus().equalsIgnoreCase("administered")){
             holder.tvVaccineStatus.setTextColor(context.getResources().getColor(R.color.green));
-            holder.tvVaccineStatus.setText("Administered");
+            holder.tvVaccineStatus.setText(R.string.administered);
         }else if(vaccineModels.get(position).getStatus().equalsIgnoreCase("scheduled")){
             holder.tvVaccineStatus.setTextColor(context.getResources().getColor(R.color.yellow));
-            holder.tvVaccineStatus.setText("Scheduled");
+            holder.tvVaccineStatus.setText(R.string.scheduled);
         }
     }
 

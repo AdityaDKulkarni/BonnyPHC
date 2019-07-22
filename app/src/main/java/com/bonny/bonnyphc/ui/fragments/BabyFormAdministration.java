@@ -17,6 +17,7 @@ import android.widget.EditText;
 
 import com.bonny.bonnyphc.R;
 import com.bonny.bonnyphc.models.FormDataHolder;
+import com.bonny.bonnyphc.util.Utils;
 
 /**
  * @author Aditya Kulkarni
@@ -26,6 +27,7 @@ public class BabyFormAdministration extends Fragment{
 
     private final String TAG = getClass().getSimpleName();
     private String tagId = "No tag";
+    private boolean flag = false;
     public EditText etBabyTag, etBabySpecialNotes;
 
     public BabyFormAdministration() {
@@ -46,6 +48,15 @@ public class BabyFormAdministration extends Fragment{
 
         etBabyTag.setText(getTagId());
         setData();
+
+        if(FormDataHolder.babyModel != null){
+            FormDataHolder.flag = true;
+            etBabyTag.setText(FormDataHolder.babyModel.getTag());
+            etBabySpecialNotes.setText(FormDataHolder.babyModel.getSpecial_notes());
+            FormDataHolder.babyModel.setText_notifications(false);
+            FormDataHolder.babyModel.setBlood_group(Utils.getRawBloodGroup(FormDataHolder.babyModel.getBlood_group()));
+            FormDataHolder.babyModel.setGender(FormDataHolder.babyModel.getGender().toLowerCase());
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -77,15 +88,17 @@ public class BabyFormAdministration extends Fragment{
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
                 if(etBabyTag.getText().toString().isEmpty()){
                     etBabyTag.setError(getString(R.string.cannot_be_empty));
                 }else{
                     FormDataHolder.tag = etBabyTag.getText().toString();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(FormDataHolder.babyModel != null){
+                    FormDataHolder.babyModel.setTag(etBabyTag.getText().toString());
                 }
             }
         });
@@ -98,15 +111,17 @@ public class BabyFormAdministration extends Fragment{
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
                 if(etBabySpecialNotes.getText().toString().isEmpty()){
                     etBabySpecialNotes.setError(getString(R.string.cannot_be_empty));
                 }else{
                     FormDataHolder.specialNotes = etBabySpecialNotes.getText().toString();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(FormDataHolder.babyModel != null){
+                    FormDataHolder.babyModel.setSpecial_notes(etBabySpecialNotes.getText().toString());
                 }
             }
         });
