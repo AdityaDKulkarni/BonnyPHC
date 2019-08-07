@@ -25,10 +25,12 @@ import android.widget.Toast;
 import com.bonny.bonnyphc.R;
 import com.bonny.bonnyphc.adapters.BabyRecyclerAdapter;
 import com.bonny.bonnyphc.api.API;
+import com.bonny.bonnyphc.comparators.WeekComparator;
 import com.bonny.bonnyphc.config.RetrofitConfig;
 import com.bonny.bonnyphc.listener.RecyclerViewListener;
 import com.bonny.bonnyphc.models.BabyModel;
 import com.bonny.bonnyphc.models.EmployeeModel;
+import com.bonny.bonnyphc.models.FormDataHolder;
 import com.bonny.bonnyphc.models.ScheduleLists;
 import com.bonny.bonnyphc.models.UserModel;
 import com.bonny.bonnyphc.models.VaccineModel;
@@ -37,6 +39,7 @@ import com.bonny.bonnyphc.util.ProgressDialogUtil;
 import com.bonny.bonnyphc.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -152,6 +155,8 @@ public class AllBabiesActivity extends AppCompatActivity
                                 rvBabies, new RecyclerViewListener.OnItemClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
+                                FormDataHolder.selectedBabyId = babyModels.get(position).getId();
+                                FormDataHolder.selectedBabyModel = babyModels.get(position);
                                 getSchedule(babyModels.get(position).getId(), position);
                             }
                             @Override
@@ -244,6 +249,7 @@ public class AllBabiesActivity extends AppCompatActivity
                                 ScheduleLists.currentWeekVaccineList.add(vaccineModel);
                             }
                         }
+                        Collections.sort(vaccineModels, new WeekComparator());
                         ScheduleLists.fullScheduleList = vaccineModels;
                         Intent intent = new Intent(AllBabiesActivity.this, BabyDetailsActivity.class);
                         intent.putExtra("babyModel", babyModels.get(position));

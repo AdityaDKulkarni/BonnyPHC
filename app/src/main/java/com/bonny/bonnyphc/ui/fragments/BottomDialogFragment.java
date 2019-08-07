@@ -46,8 +46,14 @@ public class BottomDialogFragment extends BottomSheetDialogFragment {
 
     String vaccines;
     SessionManager sessionManager;
+    private static BottomDialogFragment bottomDialogFragment = null;
+
     public static BottomDialogFragment getInstance() {
-        return new BottomDialogFragment();
+        if(bottomDialogFragment == null){
+            bottomDialogFragment = new BottomDialogFragment();
+        }
+
+        return bottomDialogFragment;
     }
 
     @Override
@@ -116,8 +122,10 @@ public class BottomDialogFragment extends BottomSheetDialogFragment {
                                         Log.e("Schedule code", response.code() + "");
                                         if(response.code() == 200){
                                             Toast.makeText(getActivity(), getString(R.string.vaccines_shceduled), Toast.LENGTH_LONG).show();
+                                            getInstance().dismiss();
                                         }else {
                                             Toast.makeText(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+                                            getInstance().dismiss();
                                         }
                                     }
 
@@ -127,6 +135,9 @@ public class BottomDialogFragment extends BottomSheetDialogFragment {
                                         Toast.makeText(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
                                     }
                                 });
+                            }else{
+                                Toast.makeText(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
+                                getInstance().dismiss();
                             }
                         }
 
