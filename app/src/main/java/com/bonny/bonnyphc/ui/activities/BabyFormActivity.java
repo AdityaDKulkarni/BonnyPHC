@@ -87,7 +87,7 @@ public class BabyFormActivity extends AppCompatActivity implements View.OnClickL
         btnCancel.setOnClickListener(this);
         btnNext.setOnClickListener(this);
 
-        nfcHandler = new NFCHandler(NfcAdapter.getDefaultAdapter(BabyFormActivity.this), this);
+        nfcHandler = NFCHandler.getInstance(NfcAdapter.getDefaultAdapter(BabyFormActivity.this), this);
 
         if (getIntent().hasExtra("babyModel")) {
             getSupportActionBar().setTitle(getString(R.string.update_details));

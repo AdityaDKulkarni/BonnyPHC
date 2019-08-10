@@ -5,7 +5,7 @@
 
     <TextView
         android:id="@+id/tv_place"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textSize="@dimen/s16sp"
@@ -21,7 +21,20 @@
         android:textColor="@color/dark_grey"
         android:textSize="@dimen/s16sp"
         android:layout_marginLeft="@dimen/d16dp"
-        android:layout_marginBottom="@dimen/d8dp"/>
+        android:layout_marginBottom="@dimen/d8dp" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/s16sp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@id/tv_date"
+        android:paddingLeft="@dimen/d2dp"
+        android:paddingRight="@dimen/d2dp"
+        android:textColor="@color/white"
+        android:layout_marginEnd="@dimen/d8dp"
+        android:layout_alignBottom="@id/tv_date"/>
 
     <View
         android:id="@+id/view"

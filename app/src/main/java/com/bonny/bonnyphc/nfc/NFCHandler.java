@@ -23,12 +23,20 @@ import java.util.Locale;
 
 public class NFCHandler {
     private NfcAdapter nfcAdapter;
+    private static NFCHandler nfcHandler = null;
     private Context context;
     private String TAG = getClass().getSimpleName();
 
-    public NFCHandler(NfcAdapter nfcAdapter, Context context) {
+    private NFCHandler(NfcAdapter nfcAdapter, Context context) {
         this.nfcAdapter = nfcAdapter;
         this.context = context;
+    }
+
+    public static NFCHandler getInstance(NfcAdapter nfcAdapter, Context context){
+        if (nfcHandler == null){
+            nfcHandler = new NFCHandler(nfcAdapter, context);
+        }
+        return nfcHandler;
     }
 
     public boolean isNfcEnabled() {

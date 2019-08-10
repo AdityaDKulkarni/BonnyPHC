@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/d5dp"
             android:hint="@string/tag_id"
+            android:singleLine="true"
             android:maxLines="1"
             android:imeOptions="actionNext" />
 

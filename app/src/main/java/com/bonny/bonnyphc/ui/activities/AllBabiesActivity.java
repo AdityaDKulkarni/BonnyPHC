@@ -1,7 +1,11 @@
 package com.bonny.bonnyphc.ui.activities;
 
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,10 +19,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +37,7 @@ import com.bonny.bonnyphc.models.FormDataHolder;
 import com.bonny.bonnyphc.models.ScheduleLists;
 import com.bonny.bonnyphc.models.UserModel;
 import com.bonny.bonnyphc.models.VaccineModel;
+import com.bonny.bonnyphc.nfc.NFCHandler;
 import com.bonny.bonnyphc.session.SessionManager;
 import com.bonny.bonnyphc.util.ProgressDialogUtil;
 import com.bonny.bonnyphc.util.Utils;
@@ -56,10 +60,15 @@ public class AllBabiesActivity extends AppCompatActivity
     private TextView tvName, tvEmail;
     private RecyclerView rvBabies;
     private HashMap<String, String> userDetails;
-    private String username, email, key, TAG = getClass().getSimpleName();
+    private String username, email, key, TAG = getClass().getSimpleName(), tagId;
     private SessionManager sessionManager;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ArrayList<BabyModel> babyModels;
+    private NFCHandler nfcHandler;
+    private Button btnScanNfc;
+    private boolean scanningNFC = false;
+    private API api;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +98,8 @@ public class AllBabiesActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         swipeRefreshLayout = findViewById(R.id.swipeLayout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        api = new RetrofitConfig().config();
+        progressDialog = ProgressDialogUtil.progressDialog(this, getString(R.string.please_wait), false);
 
         intitUi();
         getEmployee();
@@ -114,6 +125,8 @@ public class AllBabiesActivity extends AppCompatActivity
         userDetails = sessionManager.getUserDetails();
         username = userDetails.get("username");
         key = userDetails.get("key");
+        btnScanNfc = findViewById(R.id.btn_scan_tag);
+        nfcHandler = NFCHandler.getInstance(NfcAdapter.getDefaultAdapter(AllBabiesActivity.this), this);
 
         tvName.setText(username);
 
@@ -122,6 +135,27 @@ public class AllBabiesActivity extends AppCompatActivity
                     .show();
             sessionManager.setIsFirstTimeLaunch(false);
         }
+
+        btnScanNfc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (nfcHandler.isNfcEnabled()) {
+                    scanningNFC = true;
+                    Snackbar.make(findViewById(R.id.coordinator), getString(R.string.scanning_for_a_card), Snackbar.LENGTH_INDEFINITE)
+                            .setAction(getString(R.string.cancel), new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    scanningNFC = false;
+                                }
+                            })
+                            .setActionTextColor(getResources().getColor(R.color.white))
+                            .show();
+                } else {
+                    scanningNFC = false;
+                    Snackbar.make(findViewById(R.id.coordinator), getString(R.string.device_is_not_nfc_supported), Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void swipe() {
@@ -135,7 +169,6 @@ public class AllBabiesActivity extends AppCompatActivity
 
     private synchronized void getAllBabies() {
         swipeRefreshLayout.setRefreshing(true);
-        API api = new RetrofitConfig().config();
         Call<List<BabyModel>> call = api.getAllBabies(key);
         call.enqueue(new Callback<List<BabyModel>>() {
             @Override
@@ -159,6 +192,7 @@ public class AllBabiesActivity extends AppCompatActivity
                                 FormDataHolder.selectedBabyModel = babyModels.get(position);
                                 getSchedule(babyModels.get(position).getId(), position);
                             }
+
                             @Override
                             public void onLongItemClick(View view, int position) {
 
@@ -186,7 +220,6 @@ public class AllBabiesActivity extends AppCompatActivity
     }
 
     private synchronized void getEmployee() {
-        API api = new RetrofitConfig().config();
         Call<List<EmployeeModel>> call = api.getEmployee(key);
         call.enqueue(new Callback<List<EmployeeModel>>() {
             @Override
@@ -219,11 +252,8 @@ public class AllBabiesActivity extends AppCompatActivity
 
     private void getSchedule(int pk, final int position) {
         final ArrayList<VaccineModel> vaccineModels = new ArrayList<>();
-        final ProgressDialog progressDialog = new ProgressDialogUtil().progressDialog(this,
-                "Getting schedule...", false);
         progressDialog.show();
 
-        API api = new RetrofitConfig().config();
         Call<List<VaccineModel>> call = api.getSchedule(new SessionManager(this).getUserDetails().get("key"), pk);
         call.enqueue(new Callback<List<VaccineModel>>() {
             @Override
@@ -244,8 +274,8 @@ public class AllBabiesActivity extends AppCompatActivity
                             vaccineModel.setStatus(response.body().get(i).getStatus());
                             vaccineModels.add(vaccineModel);
 
-                            if(vaccineModel.getStatus().equalsIgnoreCase("pending")
-                                    && vaccineModel.getWeek() == babyModels.get(position).getWeek()){
+                            if (vaccineModel.getStatus().equalsIgnoreCase("pending")
+                                    && vaccineModel.getWeek() == babyModels.get(position).getWeek()) {
                                 ScheduleLists.currentWeekVaccineList.add(vaccineModel);
                             }
                         }
@@ -267,29 +297,13 @@ public class AllBabiesActivity extends AppCompatActivity
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getAllBabies();
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            finishAffinity();
-        }
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-            API api = new RetrofitConfig().config();
+            api = new RetrofitConfig().config();
             Call<UserModel> call = api.logout();
 
             call.enqueue(new Callback<UserModel>() {
@@ -313,5 +327,124 @@ public class AllBabiesActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+
+        if (intent.hasExtra(NfcAdapter.EXTRA_TAG) && scanningNFC) {
+            try {
+                scanningNFC = false;
+                Tag tag = intent.getParcelableExtra(NfcAdapter.EXTRA_TAG);
+                tagId = nfcHandler.getNfcId(tag.getId());
+                Log.e(TAG, "Tag " + tagId + " scanned");
+
+                Call<List<BabyModel>> call = api.getBaby(
+                        key,
+                        tagId
+                );
+                progressDialog.show();
+                call.enqueue(new Callback<List<BabyModel>>() {
+                    @Override
+                    public void onResponse(Call<List<BabyModel>> call, Response<List<BabyModel>> response) {
+                        progressDialog.setMessage(getString(R.string.redirecting));
+                        BabyModel babyModel1 = null;
+                        int i = 0;
+                        for(i = 0; i < response.body().size(); i++){
+                            if(response.body().get(i).getTag().equalsIgnoreCase(tagId)){
+                                babyModel1 = response.body().get(i);
+                                break;
+                            }
+                        }
+
+                        FormDataHolder.selectedBabyId = babyModel1.getId();
+                        FormDataHolder.selectedBabyModel = babyModel1;
+                        final ArrayList<VaccineModel> vaccineModels = new ArrayList<>();
+                        Call<List<VaccineModel>> call1 = api.getSchedule(new SessionManager(AllBabiesActivity.this).getUserDetails().get("key"), babyModel1.getId());
+                        final BabyModel finalBabyModel = babyModel1;
+                        call1.enqueue(new Callback<List<VaccineModel>>() {
+                            @Override
+                            public void onResponse(Call<List<VaccineModel>> call, Response<List<VaccineModel>> response) {
+                                switch (response.code()) {
+                                    case 200:
+                                        ScheduleLists.currentWeekVaccineList = new ArrayList<>();
+                                        ScheduleLists.fullScheduleList = new ArrayList<>();
+                                        for (int i = 0; i < response.body().size(); i++) {
+                                            VaccineModel vaccineModel = new VaccineModel();
+                                            vaccineModel.setBaby(response.body().get(i).getBaby());
+                                            vaccineModel.setVaccine(response.body().get(i).getVaccine());
+                                            vaccineModel.setWeek(response.body().get(i).getWeek());
+                                            vaccineModel.setTentative_date(response.body().get(i).getTentative_date());
+                                            vaccineModel.setStatus(response.body().get(i).getStatus());
+                                            vaccineModels.add(vaccineModel);
+
+                                            if (vaccineModel.getStatus().equalsIgnoreCase("pending")
+                                                    && vaccineModel.getWeek() == finalBabyModel.getWeek()) {
+                                                ScheduleLists.currentWeekVaccineList.add(vaccineModel);
+                                            }
+                                        }
+                                        Collections.sort(vaccineModels, new WeekComparator());
+                                        ScheduleLists.fullScheduleList = vaccineModels;
+                                        if (progressDialog.isShowing()) {
+                                            progressDialog.dismiss();
+                                        }
+                                        Intent intent = new Intent(AllBabiesActivity.this, BabyDetailsActivity.class);
+                                        intent.putExtra("babyModel", finalBabyModel);
+                                        startActivity(intent);
+                                        break;
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<VaccineModel>> call, Throwable t) {
+                                if (progressDialog.isShowing()) {
+                                    progressDialog.dismiss();
+                                }
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<BabyModel>> call, Throwable t) {
+                        if (progressDialog.isShowing()) {
+                            progressDialog.dismiss();
+                        }
+                        Snackbar.make(findViewById(R.id.coordinator), getString(R.string.something_went_wrong), Snackbar.LENGTH_LONG).show();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter tagFilter = new IntentFilter(NfcAdapter.ACTION_TAG_DISCOVERED);
+        IntentFilter techFilter = new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
+        IntentFilter ndefFilter = new IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED);
+
+        IntentFilter[] filters = new IntentFilter[]{tagFilter, techFilter, ndefFilter};
+        Intent intent = new Intent(this, AllBabiesActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+
+        if (nfcHandler.getNfcAdapter() != null) {
+            nfcHandler.getNfcAdapter().enableForegroundDispatch(this, pendingIntent, filters, null);
+        }
+
+        //getAllBabies();
+        scanningNFC = false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            finishAffinity();
+        }
     }
 }

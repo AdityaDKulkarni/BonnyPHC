@@ -22,6 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/place_of_birth"
+                android:singleLine="true"
+                android:maxLines="1"
                 android:imeOptions="actionNext" />
 
         </android.support.design.widget.TextInputLayout>
@@ -41,6 +43,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/weight"
+                android:singleLine="true"
+                android:maxLines="1"
                 android:imeOptions="actionDone"
                 android:inputType="number" />
 

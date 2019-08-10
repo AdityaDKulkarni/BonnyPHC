@@ -126,4 +126,10 @@ public interface API {
             @Field("appointment") int appointment,
             @Field("vaccines") String vaccines
     );
+
+    @GET("api/babies/")
+    Call<List<BabyModel>> getBaby(
+            @Header("Authorization") String key,
+            @Query("search") String query
+    );
 }

@@ -40,7 +40,6 @@ public class AppointmentHistoryFragment extends Fragment {
     private View v;
     private ArrayList<AppointmentModel> appointmentModels;
     private RecyclerView recyclerView;
-    private List<String> strings;
     private String TAG = getClass().getSimpleName();
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -83,12 +82,12 @@ public class AppointmentHistoryFragment extends Fragment {
     }
 
     synchronized private void getHistory() {
-        strings = new ArrayList();
         API api = new RetrofitConfig().config();
         Call<List<AppointmentModel>> call = api.getAppointments(new SessionManager(getContext()).getUserDetails().get("key"), ScheduleLists.fullScheduleList.get(0).getBaby());
         call.enqueue(new Callback<List<AppointmentModel>>() {
             @Override
             public void onResponse(Call<List<AppointmentModel>> call, Response<List<AppointmentModel>> response) {
+                appointmentModels.clear();
                 for (int i = 0; i < response.body().size(); i++) {
                     if (response.body().get(i).getBaby() == ScheduleLists.fullScheduleList.get(i).getBaby()) {
                         AppointmentModel model = new AppointmentModel();
@@ -96,8 +95,8 @@ public class AppointmentHistoryFragment extends Fragment {
                         model.setBaby(response.body().get(i).getBaby());
                         model.setAdministered_at(response.body().get(i).getAdministered_at());
                         model.setAdministered_on(response.body().get(i).getAdministered_on());
+                        model.setStatus(response.body().get(i).getStatus());
                         appointmentModels.add(model);
-                        strings.add(model.getAdministered_at().getName() + " - " + model.getAdministered_on());
                     }
                 }
 

@@ -135,6 +135,10 @@ public class BottomDialogFragment extends BottomSheetDialogFragment {
                                         Toast.makeText(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
                                     }
                                 });
+                            }else if(response.code() == 307){
+                                Toast.makeText(getActivity(), getString(R.string.cannot_schedule_because_of_cooldown_period), Toast.LENGTH_LONG).show();
+                            }else if(response.code() == 303){
+                                Toast.makeText(getActivity(), getString(R.string.previous_appointments_should_be_completed_to_make_new_one), Toast.LENGTH_LONG).show();
                             }else{
                                 Toast.makeText(getActivity(), getString(R.string.something_went_wrong), Toast.LENGTH_LONG).show();
                                 getInstance().dismiss();

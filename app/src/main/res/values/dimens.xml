@@ -36,4 +36,5 @@
     <dimen name="d12dp">12dp</dimen>
     <dimen name="d210dp">210dp</dimen>
     <dimen name="d200dp">200dp</dimen>
+    <dimen name="d164dp">164dp</dimen>
 </resources>

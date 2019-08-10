@@ -82,4 +82,10 @@
     <string name="mark_cancel">Cancel</string>
     <string name="edit">Edit</string>
     <string name="update_details">Update details</string>
+    <string name="scan_the_card">Scan the card</string>
+    <string name="device_is_not_nfc_supported">This device is not NFC supported.</string>
+    <string name="scanning_for_a_card">Scanning for a card…</string>
+    <string name="redirecting">Record found. Redirecting.</string>
+    <string name="cannot_schedule_because_of_cooldown_period">Cannot schedule vaccine because of cooldown period.</string>
+    <string name="previous_appointments_should_be_completed_to_make_new_one">Previous appointments should be completed to make new one.</string>
 </resources>

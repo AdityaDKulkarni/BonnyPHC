@@ -36,6 +36,21 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
         try {
             holder.tvPlace.setText(appointmentModels.get(position).getAdministered_at().getName());
             holder.tvTime.setText(appointmentModels.get(position).getAdministered_on());
+            holder.tvStaus.setText(appointmentModels.get(position).getStatus());
+            switch (appointmentModels.get(position).getStatus().toLowerCase()){
+                case "completed":
+                    holder.tvStaus.setBackground(context.getResources().getDrawable(R.drawable.eclipse_green));
+                    break;
+                case "scheduled":
+                    holder.tvStaus.setBackground(context.getResources().getDrawable(R.drawable.eclipse_orange));
+                    break;
+                case "partial":
+                    holder.tvStaus.setBackground(context.getResources().getDrawable(R.drawable.eclipse_orange));
+                    break;
+                case "cancelled":
+                    holder.tvStaus.setBackground(context.getResources().getDrawable(R.drawable.eclipse_red));
+                    break;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -47,12 +62,13 @@ public class AppointmentsAdapter extends RecyclerView.Adapter<AppointmentsAdapte
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvPlace, tvDate, tvTime;
+        TextView tvPlace, tvStaus, tvTime;
         public ViewHolder(View itemView) {
             super(itemView);
 
             tvPlace = itemView.findViewById(R.id.tv_place);
             tvTime = itemView.findViewById(R.id.tv_date);
+            tvStaus = itemView.findViewById(R.id.tv_status);
         }
     }
 }

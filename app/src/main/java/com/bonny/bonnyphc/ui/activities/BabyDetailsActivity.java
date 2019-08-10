@@ -9,7 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bonny.bonnyphc.R;
@@ -18,6 +17,7 @@ import com.bonny.bonnyphc.models.BabyModel;
 import com.bonny.bonnyphc.models.FormDataHolder;
 import com.bonny.bonnyphc.ui.fragments.AppointmentHistoryFragment;
 import com.bonny.bonnyphc.ui.fragments.ScheduleFragment;
+import com.bonny.bonnyphc.util.Utils;
 
 public class BabyDetailsActivity extends AppCompatActivity {
 
@@ -26,8 +26,9 @@ public class BabyDetailsActivity extends AppCompatActivity {
     private PagerAdapter pagerAdapter;
     private TabLayout tabLayout;
     private BabyModel babyModel;
-    private TextView tvDetailsBabyName,tvDetailsBabyBloodGroup,tvDetailsBabyWeight;
+    private TextView tvDetailsBabyName, tvDetailsBabyBloodGroup, tvDetailsBabyWeight;
     private Button btnEdit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,10 +40,10 @@ public class BabyDetailsActivity extends AppCompatActivity {
 
         initUi();
 
-        if(getIntent().hasExtra("babyModel")){
+        if (getIntent().hasExtra("babyModel")) {
             babyModel = (BabyModel) getIntent().getExtras().get("babyModel");
             tvDetailsBabyName.setText("Name: " + babyModel.getFirst_name());
-            tvDetailsBabyBloodGroup.setText("Blood Group: " + babyModel.getBlood_group());
+            tvDetailsBabyBloodGroup.setText("Blood Group: " + Utils.getFormattedBloodGroup(babyModel.getBlood_group()));
             tvDetailsBabyWeight.setText("Weight: " + String.valueOf(babyModel.getWeight()) + " Kg");
             FormDataHolder.specialNotes = babyModel.getSpecial_notes();
         }
@@ -77,7 +78,7 @@ public class BabyDetailsActivity extends AppCompatActivity {
         });
     }
 
-    private void initUi(){
+    private void initUi() {
         viewPager = findViewById(R.id.vPSchedule);
         tvDetailsBabyName = findViewById(R.id.tvDetailsBabyName);
         tvDetailsBabyBloodGroup = findViewById(R.id.tvDetailsBabyBloodGroup);

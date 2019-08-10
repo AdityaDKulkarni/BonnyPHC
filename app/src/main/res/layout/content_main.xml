@@ -5,18 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.bonny.bonnyphc.ui.activities.AllBabiesActivity"
     tools:showIn="@layout/app_bar_main"
     android:background="@color/activity_background">
+
+    <!--<ImageView
+        android:id="@+id/btn_scan_tag"
+        android:layout_width="@dimen/d164dp"
+        android:layout_height="@dimen/d164dp"
+        android:background="@drawable/button"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_nfc_card"
+        android:scaleType="fitXY"
+        android:elevation="@dimen/d8dp"
+        android:stateListAnimator="@null"
+        android:layout_marginTop="@dimen/d48dp"/>-->
+
+    <Button
+        android:id="@+id/btn_scan_tag"
+        android:layout_width="@dimen/d164dp"
+        android:layout_height="@dimen/d164dp"
+        android:background="@drawable/button"
+        android:layout_centerHorizontal="true"
+        android:text="@string/scan_the_card"
+        android:textColor="@color/white"
+        android:textSize="@dimen/s16sp"
+        android:textStyle="bold"
+        android:elevation="@dimen/d8dp"
+        android:stateListAnimator="@null"
+        android:layout_marginTop="@dimen/d48dp"/>
+
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_scan_tag"
+        android:layout_marginTop="@dimen/d32dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvBabies"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
